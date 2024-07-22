@@ -50,7 +50,7 @@ class Establishment_repository_impl(Establishment_repository, ABC):
         self.db.commit()
 
     def get_by_uuid(self, uuid: str):
-        return self.db.query(Establishment).filter(Establishment.uuid == uuid).first()
+        return self.db.query(Establishment).options(joinedload(Establishment.service).load_only(Service.name, Service.uuid), joinedload(Establishment.category)).filter(Establishment.uuid == uuid).all()
 
     def get_by_category(self, category: str):
         return self.db.query(Establishment).filter(Establishment.category == category).all()
