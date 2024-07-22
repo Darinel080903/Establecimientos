@@ -22,6 +22,10 @@ class Establishment_domain:
     def uuid(self):
         return self._uuid
 
+    @uuid.setter
+    def uuid(self, value):
+        self._uuid = value
+
     @property
     def name(self):
         return self._name

@@ -32,7 +32,7 @@ class Establishment_mapper_service:
 
     @staticmethod
     def db_to_domain(establishment: Establishment) -> Establishment_domain:
-        return Establishment_domain(
+        establishment_domain = Establishment_domain(
             name=establishment.name,
             description=establishment.description,
             opening_hours=establishment.opening_hours,
@@ -43,6 +43,8 @@ class Establishment_mapper_service:
             category=establishment.category,
             user_id=establishment.user_id
         )
+        establishment_domain.uuid = establishment.uuid
+        return establishment_domain
 
     @staticmethod
     def domain_to_db(establishment: Establishment_domain) -> Establishment:
