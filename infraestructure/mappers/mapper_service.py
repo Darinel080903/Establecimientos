@@ -6,6 +6,7 @@ from domain.model.establishment_domain import Establishment_domain
 from domain.model.service_domain import Service_domain
 from infraestructure.schema.models_factory import Comment, Establishment, Service, Category
 from infraestructure.web.request.establishment_entity import EstablishmentEntity, ServiceEntity, CategoryEntity
+from infraestructure.web.request.establishment_update_entity import EstablishmentUpdateEntity
 
 
 class Comment_mapper_service:
@@ -71,6 +72,19 @@ class Establishment_mapper_service:
             address=establishment_entity.address,
             services=Service_mapper_service.entities_to_domains(establishment_entity.services),
             category=establishment_entity.category,
+        )
+
+    @staticmethod
+    def entity_to_domain_update(establishment_entity: EstablishmentUpdateEntity) -> Establishment_domain:
+        return Establishment_domain(
+            name=establishment_entity.name,
+            description=establishment_entity.description,
+            opening_hours=establishment_entity.opening_hours,
+            closing_hours=establishment_entity.closing_hours,
+            days=establishment_entity.days,
+            address=establishment_entity.address,
+            services=[],
+            category='',
         )
 
 

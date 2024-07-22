@@ -36,7 +36,10 @@ class Establishment_repository_impl(Establishment_repository, ABC):
         establishment_db = self.db.query(Establishment).filter(Establishment.uuid == establishment_id).first()
         establishment_db.name = establishment.name
         establishment_db.description = establishment.description
-        establishment_db.category = establishment.category
+        establishment_db.opening_hours = establishment.opening_hours
+        establishment_db.closing_hours = establishment.closing_hours
+        establishment_db.days = establishment.days
+        establishment_db.address = establishment.address
         self.db.commit()
         self.db.refresh(establishment_db)
         return establishment_db
