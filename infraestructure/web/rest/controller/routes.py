@@ -92,6 +92,15 @@ def create_comment(comment: CommentEntity):
     return service_comments.add_comment(comment.user_id, comment.establishment_id, comment.comment, comment.rating)
 
 
+@controller.get(default_route + "/rating/{establishment_id}")
+def get_rating(establishment_id: str):
+    return service_comments.get_rating_establishment(establishment_id)
+
+@controller.get(default_route + "/establishment/{establishment_id}")
+def get_establishment(establishment_id: str):
+    return service.get_by_uuid(establishment_id)
+
+
 @controller.get(default_route + '/health')
 def health():
     return {"status": "Ok"}
