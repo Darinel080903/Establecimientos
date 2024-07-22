@@ -49,7 +49,7 @@ def get_categories():
     return categories
 
 
-@controller.get(default_route + "/establishment/by/{user-id}")
+@controller.get(default_route + "/establishment/by/{user_id}")
 def get_by_user(user_id: str):
     establishments = service.get_by_user(user_id)
     return establishments

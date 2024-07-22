@@ -12,3 +12,6 @@ class Category_repository(ABC):
 
     def has_categories(self):
         raise NotImplemented
+
+    def get_by_id(self, c_id: str):
+        raise NotImplemented

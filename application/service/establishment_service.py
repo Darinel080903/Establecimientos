@@ -17,7 +17,12 @@ class Establishment_service(Establishment_use_case, ABC):
     def get_all(self) -> Base_response:
         try:
             establishments = self.establishment_repository.get_all()
-            return Base_response(data=establishments, message="Success", code=200)
+            establishments_data = []
+            for establishment in establishments:
+                establishment_data = establishment.__dict__
+                establishment_data['category'] = establishment.category.name
+                establishments_data.append(establishment_data)
+            return Base_response(data=establishments_data, message="Success", code=200)
         except Exception as e:
             return Base_response(data=None, message=str(e), code=500)
 
@@ -64,7 +69,12 @@ class Establishment_service(Establishment_use_case, ABC):
     def get_by_user(self, user_id: str) -> Base_response:
         try:
             establishments = self.establishment_repository.get_by_user(user_id)
-            return Base_response(data=establishments, message="Success", code=200)
+            establishments_data = []
+            for establishment in establishments:
+                establishment_data = establishment.__dict__
+                establishment_data['category'] = establishment.category.name
+                establishments_data.append(establishment_data)
+            return Base_response(data=establishments_data, message="Success", code=200)
         except Exception as e:
             return Base_response(data=None, message=str(e), code=500)
 

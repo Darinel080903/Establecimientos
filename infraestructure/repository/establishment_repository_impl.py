@@ -1,12 +1,16 @@
 from abc import ABC
 from typing import List
 
+from sqlalchemy.orm import joinedload
+
 from domain.model.establishment_domain import Establishment_domain
 from domain.repository.establishment_repository import Establishment_repository
 from infraestructure.configuration.db import SessionLocal
 from infraestructure.mappers.mapper_service import Establishment_mapper_service, Service_mapper_service, \
     Category_mapper_service
-from infraestructure.schema.models_factory import Establishment
+from infraestructure.schema.models_factory import Establishment, Category
+from infraestructure.schema.models_factory import Service
+
 import boto3
 
 
@@ -15,7 +19,9 @@ class Establishment_repository_impl(Establishment_repository, ABC):
         self.db = SessionLocal()
 
     def get_all(self):
-        return self.db.query(Establishment).all()
+        return self.db.query(Establishment).options(
+            joinedload(Establishment.service).load_only(Service.uuid, Service.name),
+            joinedload(Establishment.category)).all()
 
     def add_establishment(self, establishment: Establishment_domain):
         print(establishment.user_id)
@@ -47,7 +53,7 @@ class Establishment_repository_impl(Establishment_repository, ABC):
         return self.db.query(Establishment).filter(Establishment.category == category).all()
 
     def get_by_user(self, user_id: str):
-        return self.db.query(Establishment).filter(Establishment.user_id == user_id).all()
+        return self.db.query(Establishment).options(joinedload(Establishment.service).load_only(Service.name, Service.uuid), joinedload(Establishment.category)).filter(Establishment.user_id == user_id).all()
 
     def update_portrait(self, content: bytes, filename: str, bucket: str, s3_filename: str) -> str:
         s3 = boto3.client('s3')

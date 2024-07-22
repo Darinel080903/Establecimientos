@@ -20,3 +20,6 @@ class Category_repository_impl(Category_repository, ABC):
 
     def has_categories(self):
         return self.db.query(Category).count() > 0
+
+    def get_by_id(self, c_id: str):
+        return self.db.query(Category).filter(Category.uuid == c_id).first()
