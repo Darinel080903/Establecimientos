@@ -13,7 +13,8 @@ from domain.use_case.establishment_use_case import Establishment_use_case
 
 
 class Establishment_service(Establishment_use_case, ABC):
-    def __init__(self, establishment_repository: Establishment_repository, category_repository: Category_repository, service_response: Service_repository, gallery_repository: Gallery_repository):
+    def __init__(self, establishment_repository: Establishment_repository, category_repository: Category_repository,
+                 service_response: Service_repository, gallery_repository: Gallery_repository):
         self.establishment_repository = establishment_repository
         self.category_repository = category_repository
         self.service_response = service_response
@@ -111,7 +112,9 @@ class Establishment_service(Establishment_use_case, ABC):
         try:
             for file in files:
                 content = file.file.read()
-                url = self.establishment_repository.update_portrait(content, file.filename, f'establecimientos/{uuid_establishment}', file.filename)
+                url = self.establishment_repository.update_portrait(content, file.filename,
+                                                                    f'establecimientos/{uuid_establishment}',
+                                                                    file.filename)
                 urls.append(url)
             self.gallery_repository.add_gallery(urls, uuid_establishment)
             response = Base_response(data=None, message='Success', code=201)
@@ -119,3 +122,17 @@ class Establishment_service(Establishment_use_case, ABC):
         except Exception as e:
             response = Base_response(data=None, message=str(e), code=500)
             return response.to_dict()
+
+    def get_gallery(self, uuid_establishment: str) -> Base_response:
+        try:
+            gallery = self.gallery_repository.get_by_establishment(uuid_establishment)
+            return Base_response(data=gallery, message='Success', code=200)
+        except Exception as e:
+            return Base_response(data=None, message=str(e), code=500)
+
+    def delete_gallery(self, uuid_gallery: str) -> Base_response:
+        try:
+            self.gallery_repository.delete_gallery(uuid_gallery)
+            return Base_response(data=None, message='Success', code=200)
+        except Exception as e:
+            return Base_response(data=None, message=str(e), code=500)

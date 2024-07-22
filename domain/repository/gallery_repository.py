@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 
 class Gallery_repository(ABC):
     @abstractmethod
-    def get_all(self):
+    def get_by_establishment(self, establishment_id: str):
         raise NotImplemented
 
     @abstractmethod

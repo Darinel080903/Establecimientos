@@ -13,7 +13,7 @@ repository = establishment_repository_impl.Establishment_repository_impl()
 category_repository = category_repository_impl.Category_repository_impl()
 service_repository = service_repository_impl.Service_repository_impl()
 gallery_repository = gallery_repository_impl.Gallery_repository_impl()
-service = Establishment_service(repository, category_repository, service_repository)
+service = Establishment_service(repository, category_repository, service_repository, gallery_repository)
 repository_comments = Comment_repository_impl()
 service_comments = Comment_service(repository_comments)
 
@@ -60,6 +60,16 @@ def get_by_user(user_id: str):
 @controller.post(default_route + "/establishment/add/gallery/{establishment_id}")
 def post_gallery_images(establishment_id: str, files: list[UploadFile]):
     return service.add_gallery_image(files, establishment_id)
+
+
+@controller.get(default_route + "/establishment/gallery/{establishment_id}")
+def get_gallery(establishment_id: str):
+    return service.get_gallery(establishment_id)
+
+
+@controller.delete(default_route + "/establishment/gallery/{gallery_id}")
+def delete_gallery(gallery_id: str):
+    return service.delete_gallery(gallery_id)
 
 
 @controller.get(default_route + '/health')

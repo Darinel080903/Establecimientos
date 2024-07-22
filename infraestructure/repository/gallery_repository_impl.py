@@ -9,8 +9,8 @@ class Gallery_repository_impl(Gallery_repository, ABC):
     def __init__(self):
         self.db = SessionLocal()
 
-    def get_all(self):
-        return self.db.query(Gallery).all()
+    def get_by_establishment(self, establishment_id: str):
+        return self.db.query(Gallery).filter(Gallery.establishment_id == establishment_id).all()
 
     def upload_image(self, content: bytes, filename: str, bucket: str, s3_filename: str) -> str:
         pass
