@@ -109,11 +109,12 @@ class Establishment_service(Establishment_use_case, ABC):
 
     def add_gallery_image(self, files: List[UploadFile], uuid_establishment: str) -> Base_response:
         urls = []
+        bucket_id = uuid_establishment.replace('-', '')
         try:
             for file in files:
                 content = file.file.read()
                 url = self.establishment_repository.update_portrait(content, file.filename,
-                                                                    f'establecimientos/{uuid_establishment}',
+                                                                    f'establecimientos/{bucket_id}',
                                                                     file.filename)
                 urls.append(url)
             self.gallery_repository.add_gallery(urls, uuid_establishment)
