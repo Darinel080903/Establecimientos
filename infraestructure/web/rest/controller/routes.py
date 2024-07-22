@@ -37,6 +37,6 @@ def create_establishment(establishment: EstablishmentEntity, user_id: str):
     return establishment_save
 
 
-@controller.get('/health')
+@controller.get(default_route+'/health')
 def health():
     return {"status": "Ok"}
