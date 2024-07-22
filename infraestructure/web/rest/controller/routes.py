@@ -86,9 +86,10 @@ def delete_gallery(gallery_id: str):
 def get_establishment(establishment_id: str):
     return service.hours_by_uuid(establishment_id)
 
-@controller.post(default_route + "/comment/create/{user_id}")
-def create_comment(user_id: str, comment: CommentEntity):
-    return service_comments.add_comment(user_id, comment.establishment_id, comment.comment, comment.rating)
+
+@controller.post(default_route + "/comment/create/")
+def create_comment(comment: CommentEntity):
+    return service_comments.add_comment(comment.user_id, comment.establishment_id, comment.comment, comment.rating)
 
 
 @controller.get(default_route + '/health')

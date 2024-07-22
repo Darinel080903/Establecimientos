@@ -22,6 +22,7 @@ class Comment_mapper_service:
     @staticmethod
     def domain_to_db(comment: Comment_domain) -> Comment:
         return Comment(
+            uuid=comment.uuid,
             user_id=comment.user_id,
             establishment_id=comment.establishment_id,
             comment=comment.comment,
