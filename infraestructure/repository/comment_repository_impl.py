@@ -16,11 +16,12 @@ class Comment_repository_impl(Comment_repository, ABC):
         self.db.close()
         return [Comment_mapper_service.db_to_domain(comment) for comment in comments]
 
-    def add_comment(self, comment: Comment) -> Comment_domain:
-        self.db.add(comment)
+    def add_comment(self, comment: Comment_domain) -> Comment_domain:
+        model = Comment_mapper_service.domain_to_db(comment)
+        self.db.add(model)
         self.db.commit()
-        self.db.refresh(comment)
-        return Comment_mapper_service.db_to_domain(comment)
+        self.db.refresh(model)
+        return Comment_mapper_service.db_to_domain(model)
 
     def delete_comment(self, comment_id: str):
         comment_db = self.db.query(Comment).filter(Comment.uuid == comment_id).first()

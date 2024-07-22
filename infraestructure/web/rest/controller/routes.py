@@ -7,6 +7,7 @@ from infraestructure.mappers.mapper_service import Establishment_mapper_service
 from infraestructure.repository import establishment_repository_impl, category_repository_impl, service_repository_impl, \
     gallery_repository_impl
 from infraestructure.repository.comment_repository_impl import Comment_repository_impl
+from infraestructure.web.request.comment_entity import CommentEntity
 from infraestructure.web.request.establishment_entity import EstablishmentEntity
 from infraestructure.web.request.establishment_update_entity import EstablishmentUpdateEntity
 
@@ -84,6 +85,10 @@ def delete_gallery(gallery_id: str):
 @controller.get(default_route + "/hour/{establishment_id}")
 def get_establishment(establishment_id: str):
     return service.hours_by_uuid(establishment_id)
+
+@controller.post(default_route + "/comment/create/{user_id}")
+def create_comment(user_id: str, comment: CommentEntity):
+    return service_comments.add_comment(user_id, comment.establishment_id, comment.comment, comment.rating)
 
 
 @controller.get(default_route + '/health')

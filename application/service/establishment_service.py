@@ -144,6 +144,7 @@ class Establishment_service(Establishment_use_case, ABC):
             establishment = self.establishment_repository.get_by_uuid(uuid)
             response['opening_hours'] = establishment.opening_hours
             response['closing_hours'] = establishment.closing_hours
+            response['days'] = establishment.days
             return Base_response(data=response, message="Success", code=200)
         except Exception as e:
             return Base_response(data=None, message=str(e), code=500)

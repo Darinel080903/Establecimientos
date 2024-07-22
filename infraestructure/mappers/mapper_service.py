@@ -41,7 +41,7 @@ class Establishment_mapper_service:
             address=establishment.address,
             days=establishment.days,
             services=Service_mapper_service.db_to_domain(establishment.service),
-            category=establishment.category,
+            category=establishment.category_id,
             user_id=establishment.user_id
         )
         establishment_domain.uuid = establishment.uuid
