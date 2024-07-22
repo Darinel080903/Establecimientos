@@ -1,18 +1,23 @@
 from abc import ABC
+from typing import List
+
+from fastapi import UploadFile
 
 from domain.model.dto.response.base_response import Base_response
 from domain.model.establishment_domain import Establishment_domain
 from domain.repository.category_repository import Category_repository
 from domain.repository.establishment_repository import Establishment_repository
+from domain.repository.gallery_repository import Gallery_repository
 from domain.repository.service_respository import Service_repository
 from domain.use_case.establishment_use_case import Establishment_use_case
 
 
 class Establishment_service(Establishment_use_case, ABC):
-    def __init__(self, establishment_repository: Establishment_repository, category_repository: Category_repository, service_response: Service_repository):
+    def __init__(self, establishment_repository: Establishment_repository, category_repository: Category_repository, service_response: Service_repository, gallery_repository: Gallery_repository):
         self.establishment_repository = establishment_repository
         self.category_repository = category_repository
         self.service_response = service_response
+        self.gallery_repository = gallery_repository
 
     def get_all(self) -> Base_response:
         try:
@@ -95,6 +100,20 @@ class Establishment_service(Establishment_use_case, ABC):
             url = self.establishment_repository.update_portrait(content, filename, 'establecimientos', filename)
             print("waos", url)
             self.establishment_repository.create_image_for_establishment(uuid_establishment, url)
+            response = Base_response(data=None, message='Success', code=201)
+            return response.to_dict()
+        except Exception as e:
+            response = Base_response(data=None, message=str(e), code=500)
+            return response.to_dict()
+
+    def add_gallery_image(self, files: List[UploadFile], uuid_establishment: str) -> Base_response:
+        urls = []
+        try:
+            for file in files:
+                content = file.file.read()
+                url = self.establishment_repository.update_portrait(content, file.filename, f'establecimientos/{uuid_establishment}', file.filename)
+                urls.append(url)
+            self.gallery_repository.add_gallery(urls, uuid_establishment)
             response = Base_response(data=None, message='Success', code=201)
             return response.to_dict()
         except Exception as e:

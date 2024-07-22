@@ -1,0 +1,22 @@
+from abc import ABC
+
+from domain.repository.gallery_repository import Gallery_repository
+from infraestructure.configuration.db import SessionLocal
+from infraestructure.schema.models_factory import Gallery
+
+
+class Gallery_repository_impl(Gallery_repository, ABC):
+    def __init__(self):
+        self.db = SessionLocal()
+
+    def get_all(self):
+        return self.db.query(Gallery).all()
+
+    def upload_image(self, content: bytes, filename: str, bucket: str, s3_filename: str) -> str:
+        pass
+
+    def add_gallery(self, gallery: list[str], establishment_id: str):
+        model = [Gallery(url=image, establishment_id=establishment_id) for image in gallery]
+        self.db.bulk_save_objects(model)
+        self.db.commit()
+

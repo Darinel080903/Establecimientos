@@ -31,7 +31,7 @@ class Service(Base):
 
 class Gallery(Base):
     __tablename__ = 'gallery'
-    uuid = Column(String(255), primary_key=True, unique=True)
+    uuid = Column(Integer, primary_key=True, unique=True, autoincrement=True)
     url = Column(String(255))
     establishment_id = Column(String(255), ForeignKey('establishment.uuid'))
     establishment = relationship('Establishment', back_populates='gallery')

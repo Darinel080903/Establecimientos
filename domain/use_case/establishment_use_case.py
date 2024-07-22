@@ -1,18 +1,23 @@
 from abc import ABC, abstractmethod
+from typing import List
+
+from fastapi import UploadFile
 
 from domain.model.dto.response.base_response import Base_response
 from domain.model.establishment_domain import Establishment_domain
 from domain.repository.category_repository import Category_repository
 from domain.repository.establishment_repository import Establishment_repository
+from domain.repository.gallery_repository import Gallery_repository
 from domain.repository.service_respository import Service_repository
 
 
 class Establishment_use_case(ABC):
     @abstractmethod
-    def __init__(self, establishment_repository: Establishment_repository, category_repository: Category_repository, service_response: Service_repository):
+    def __init__(self, establishment_repository: Establishment_repository, category_repository: Category_repository, service_response: Service_repository, gallery_repository: Gallery_repository):
         self.establishment_repository = establishment_repository
         self.category_repository = category_repository
         self.service_response = service_response
+        self.gallery_repository = gallery_repository
 
     @abstractmethod
     def get_all(self) -> Base_response:
@@ -48,4 +53,16 @@ class Establishment_use_case(ABC):
 
     @abstractmethod
     def add_portrait_image(self, content: bytes, filename: str, uuid_establishment: str) -> Base_response:
+        raise NotImplemented
+
+    @abstractmethod
+    def add_gallery_image(self, files: List[UploadFile], uuid_establishment: str) -> Base_response:
+        raise NotImplemented
+
+    @abstractmethod
+    def get_gallery(self, uuid_establishment: str) -> Base_response:
+        raise NotImplemented
+
+    @abstractmethod
+    def delete_gallery(self, uuid_gallery: str) -> Base_response:
         raise NotImplemented

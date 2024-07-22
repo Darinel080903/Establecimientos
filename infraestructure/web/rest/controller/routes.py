@@ -3,7 +3,8 @@ from fastapi import APIRouter, UploadFile
 from application.service.comment_service import Comment_service
 from application.service.establishment_service import Establishment_service
 from infraestructure.mappers.mapper_service import Establishment_mapper_service
-from infraestructure.repository import establishment_repository_impl, category_repository_impl, service_repository_impl
+from infraestructure.repository import establishment_repository_impl, category_repository_impl, service_repository_impl, \
+    gallery_repository_impl
 from infraestructure.repository.comment_repository_impl import Comment_repository_impl
 from infraestructure.web.request.establishment_entity import EstablishmentEntity
 
@@ -11,6 +12,7 @@ controller = APIRouter()
 repository = establishment_repository_impl.Establishment_repository_impl()
 category_repository = category_repository_impl.Category_repository_impl()
 service_repository = service_repository_impl.Service_repository_impl()
+gallery_repository = gallery_repository_impl.Gallery_repository_impl()
 service = Establishment_service(repository, category_repository, service_repository)
 repository_comments = Comment_repository_impl()
 service_comments = Comment_service(repository_comments)
@@ -53,6 +55,11 @@ def get_categories():
 def get_by_user(user_id: str):
     establishments = service.get_by_user(user_id)
     return establishments
+
+
+@controller.post(default_route + "/establishment/add/gallery/{establishment_id}")
+def post_gallery_images(establishment_id: str, files: list[UploadFile]):
+    return service.add_gallery_image(files, establishment_id)
 
 
 @controller.get(default_route + '/health')
