@@ -81,6 +81,11 @@ def delete_gallery(gallery_id: str):
     return service.delete_gallery(gallery_id)
 
 
+@controller.get(default_route + "/hour/{establishment_id}")
+def get_establishment(establishment_id: str):
+    return service.hours_by_uuid(establishment_id)
+
+
 @controller.get(default_route + '/health')
 def health():
     return {"status": "Ok"}

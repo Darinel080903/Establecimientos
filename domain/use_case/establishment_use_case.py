@@ -66,3 +66,7 @@ class Establishment_use_case(ABC):
     @abstractmethod
     def delete_gallery(self, uuid_gallery: str) -> Base_response:
         raise NotImplemented
+
+    @abstractmethod
+    def hours_by_uuid(self, uuid: str) -> Base_response:
+        raise NotImplemented
