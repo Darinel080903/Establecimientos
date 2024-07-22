@@ -20,3 +20,8 @@ class Gallery_repository_impl(Gallery_repository, ABC):
         self.db.bulk_save_objects(model)
         self.db.commit()
 
+    def delete_gallery(self, gallery_id: str):
+        gallery_db = self.db.query(Gallery).filter(Gallery.uuid == gallery_id).first()
+        self.db.delete(gallery_db)
+        self.db.commit()
+
