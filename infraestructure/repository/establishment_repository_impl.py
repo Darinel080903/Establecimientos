@@ -7,6 +7,7 @@ from infraestructure.configuration.db import SessionLocal
 from infraestructure.mappers.mapper_service import Establishment_mapper_service, Service_mapper_service, \
     Category_mapper_service
 from infraestructure.schema.models_factory import Establishment
+import boto3
 
 
 class Establishment_repository_impl(Establishment_repository, ABC):
@@ -47,3 +48,17 @@ class Establishment_repository_impl(Establishment_repository, ABC):
 
     def get_by_user(self, user_id: str):
         return self.db.query(Establishment).filter(Establishment.user_id == user_id).all()
+
+    def update_portrait(self, content: bytes, filename: str, bucket: str, s3_filename: str) -> str:
+        s3 = boto3.client('s3')
+        file_extension = filename.rsplit('.', 1)[1].lower()
+        content_type = 'image/jpeg' if file_extension in ['jpg', 'jpeg'] else 'image/png'
+        s3.put_object(Bucket=bucket, Key=s3_filename, Body=content, ACL='public-read', ContentType=content_type)
+        return f"https://{bucket}.s3.amazonaws.com/{s3_filename}"
+
+    def create_image_for_establishment(self, establishment_id: str, url: str):
+        model = self.db.query(Establishment).filter(Establishment.uuid == establishment_id).first()
+        model.portrait = url
+        self.db.commit()
+        self.db.refresh(model)
+        self.db.close()

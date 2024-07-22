@@ -42,5 +42,10 @@ class Establishment_use_case(ABC):
     def get_by_user(self, user_id: str) -> Base_response:
         raise NotImplemented
 
+    @abstractmethod
     def get_categories(self):
+        raise NotImplemented
+
+    @abstractmethod
+    def add_portrait_image(self, content: bytes, filename: str, uuid_establishment: str) -> Base_response:
         raise NotImplemented

@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, UploadFile
 
 from application.service.comment_service import Comment_service
 from application.service.establishment_service import Establishment_service
@@ -38,12 +38,17 @@ def create_establishment(establishment: EstablishmentEntity, user_id: str):
     return establishment_save
 
 
+@controller.post(default_route + "/establishment/add/portrait/{establishment_id}")
+def post_image(establishment_id: str, file: UploadFile):
+    return service.add_portrait_image(file.file.read(), file.filename, establishment_id)
+
+
 @controller.get(default_route + "/category")
 def get_categories():
     categories = service.get_categories()
     return categories
 
 
-@controller.get(default_route+'/health')
+@controller.get(default_route + '/health')
 def health():
     return {"status": "Ok"}

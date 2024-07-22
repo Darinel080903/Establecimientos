@@ -74,3 +74,19 @@ class Establishment_service(Establishment_use_case, ABC):
             return Base_response(data=categories, message="Success", code=200)
         except Exception as e:
             return Base_response(data=None, message=str(e), code=500)
+
+    def add_portrait_image(self, content: bytes, filename: str, uuid_establishment: str) -> Base_response:
+        valid_extensions = ['jpg', 'jpeg', 'png', 'gif']
+        file_extension = filename.rsplit('.', 1)[1].lower()
+        if file_extension not in valid_extensions:
+            raise Exception('Invalid file type')
+
+        try:
+            url = self.establishment_repository.update_portrait(content, filename, 'establecimientos', filename)
+            print("waos", url)
+            self.establishment_repository.create_image_for_establishment(uuid_establishment, url)
+            response = Base_response(data=None, message='Success', code=201)
+            return response.to_dict()
+        except Exception as e:
+            response = Base_response(data=None, message=str(e), code=500)
+            return response.to_dict()

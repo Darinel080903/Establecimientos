@@ -32,6 +32,12 @@ class Establishment_repository(ABC):
     def get_by_user(self, user_id: str):
         raise NotImplemented
 
+    @abstractmethod
+    def update_portrait(self, content: bytes, filename: str, bucket: str, s3_filename: str) -> str:
+        raise NotImplemented
 
+    @abstractmethod
+    def create_image_for_establishment(self, establishment_id: str, url: str):
+        raise NotImplemented
 
 
