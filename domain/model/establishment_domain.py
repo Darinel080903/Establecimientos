@@ -77,8 +77,7 @@ class Establishment_domain:
 
     @services.setter
     def services(self, value):
-        if isinstance(value, list):
-            self._services = value
+        self._services = value
 
     @property
     def address(self):

@@ -17,5 +17,5 @@ class EstablishmentEntity(BaseModel):
     closing_hours: str
     days: str
     category: str
-    services: List[str]
+    services: List[ServiceEntity]
     address: str

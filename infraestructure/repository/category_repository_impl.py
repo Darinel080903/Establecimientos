@@ -16,7 +16,6 @@ class Category_repository_impl(Category_repository, ABC):
 
     def find_by_name(self, name: str):
         category = self.db.query(Category).filter(Category.name == name).first()
-        print(category.uuid)
         return category.uuid
 
     def has_categories(self):

@@ -22,16 +22,16 @@ class Establishment_service(Establishment_use_case, ABC):
             return Base_response(data=None, message=str(e), code=500)
 
     def add_establishment(self, establishment: Establishment_domain, user_id: str) -> Base_response:
-        try:
-            name = establishment.category
-            category_uuid = self.category_repository.find_by_name(name)
-            establishment.category = category_uuid
-            establishment.user_id = user_id
-            print(establishment.services)
-            establishment = self.establishment_repository.add_establishment(establishment)
-            return Base_response(data=establishment, message="Success", code=201)
-        except Exception as e:
-            return Base_response(data=None, message=str(e), code=500)
+        name = establishment.category
+        category_uuid = self.category_repository.find_by_name(name)
+        establishment.category = category_uuid
+        establishment.user_id = user_id
+        services = establishment.services
+        id_new = establishment.uuid
+        establishment = self.establishment_repository.add_establishment(establishment)
+        print(establishment.services.__str__())
+        establishment.services = self.service_response.add_service(services, id_new)
+        return Base_response(data=establishment, message="Success", code=201)
 
     def update_establishment(self, establishment: Establishment_domain, establishment_id: str) -> Base_response:
         try:

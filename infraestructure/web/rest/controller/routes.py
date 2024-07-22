@@ -10,7 +10,7 @@ from infraestructure.web.request.establishment_entity import EstablishmentEntity
 controller = APIRouter()
 repository = establishment_repository_impl.Establishment_repository_impl()
 category_repository = category_repository_impl.Category_repository_impl()
-service_repository = service_repository_impl.Service_repository()
+service_repository = service_repository_impl.Service_repository_impl()
 service = Establishment_service(repository, category_repository, service_repository)
 repository_comments = Comment_repository_impl()
 service_comments = Comment_service(repository_comments)
@@ -32,6 +32,7 @@ def get_comments():
 
 @controller.post(default_route + "/establishment/create/{user_id}")
 def create_establishment(establishment: EstablishmentEntity, user_id: str):
+    print(establishment.services.__str__())
     establishment = Establishment_mapper_service.entity_to_domain(establishment)
     establishment_save = service.add_establishment(establishment, user_id)
     return establishment_save

@@ -10,12 +10,14 @@ class Service_repository_impl(Service_repository, ABC):
     def __init__(self):
         self.db = SessionLocal()
 
-    def add_service(self, service: list[Service_domain]):
-        print(service)
+    def add_service(self, service: list[Service_domain], establishment_id: str):
+        print(service.__str__())
         model = [Service_mapper_service.domain_to_db(service) for service in service]
-        self.db.add_all(model)
+        for service in model:
+            service.establishment_id = establishment_id
+        print(model.__str__())
+        self.db.bulk_save_objects(model)
         self.db.commit()
-        self.db.refresh(model)
         return Service_mapper_service.db_to_domain(model)
 
     def update_service(self, service: Service_domain, service_id: str):

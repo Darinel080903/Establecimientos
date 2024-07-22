@@ -39,7 +39,7 @@ class Establishment_mapper_service:
             closing_hours=establishment.closing_hours,
             address=establishment.address,
             days=establishment.days,
-            services=[Service_mapper_service.db_to_domain(service) for service in establishment.service],
+            services=Service_mapper_service.db_to_domain(establishment.service),
             category=establishment.category,
             user_id=establishment.user_id
         )
@@ -89,6 +89,8 @@ class Service_mapper_service:
         domain = []
         for service_entity in service_entities:
             domain.append(Service_domain(name=service_entity.name))
+
+        print(domain[0].name)
         return domain
 
 
