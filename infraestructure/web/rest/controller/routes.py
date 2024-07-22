@@ -49,6 +49,12 @@ def get_categories():
     return categories
 
 
+@controller.get(default_route + "/establishment/by/{user-id}")
+def get_by_user(user_id: str):
+    establishments = service.get_by_user(user_id)
+    return establishments
+
+
 @controller.get(default_route + '/health')
 def health():
     return {"status": "Ok"}
