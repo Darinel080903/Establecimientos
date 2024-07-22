@@ -37,6 +37,12 @@ def create_establishment(establishment: EstablishmentEntity, user_id: str):
     return establishment_save
 
 
+@controller.get(default_route + "/category")
+def get_categories():
+    categories = service.get_categories()
+    return categories
+
+
 @controller.get(default_route+'/health')
 def health():
     return {"status": "Ok"}

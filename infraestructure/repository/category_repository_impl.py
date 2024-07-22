@@ -18,3 +18,6 @@ class Category_repository_impl(Category_repository, ABC):
         category = self.db.query(Category).filter(Category.name == name).first()
         print(category.uuid)
         return category.uuid
+
+    def has_categories(self):
+        return self.db.query(Category).count() > 0

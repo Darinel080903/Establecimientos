@@ -40,8 +40,9 @@ class Gallery(Base):
 class Category(Base):
     __tablename__ = 'category'
     uuid = Column(Integer, primary_key=True, unique=True, autoincrement=True)
-    name = Column(String(255))
+    name = Column(String(255), unique=True)
     establishment = relationship('Establishment', back_populates='category')
+
 
 class Comment(Base):
     __tablename__ = 'comment'

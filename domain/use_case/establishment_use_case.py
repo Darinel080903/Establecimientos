@@ -41,3 +41,6 @@ class Establishment_use_case(ABC):
     @abstractmethod
     def get_by_user(self, user_id: str) -> Base_response:
         raise NotImplemented
+
+    def get_categories(self):
+        raise NotImplemented

@@ -9,3 +9,6 @@ class Category_repository(ABC):
 
     def find_by_name(self, name: str):
         raise NotImplemented
+
+    def has_categories(self):
+        raise NotImplemented

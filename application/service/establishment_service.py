@@ -67,3 +67,10 @@ class Establishment_service(Establishment_use_case, ABC):
             return Base_response(data=establishments, message="Success", code=200)
         except Exception as e:
             return Base_response(data=None, message=str(e), code=500)
+
+    def get_categories(self):
+        try:
+            categories = self.category_repository.get_all()
+            return Base_response(data=categories, message="Success", code=200)
+        except Exception as e:
+            return Base_response(data=None, message=str(e), code=500)
