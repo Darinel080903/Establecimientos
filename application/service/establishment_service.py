@@ -113,8 +113,8 @@ class Establishment_service(Establishment_use_case, ABC):
         try:
             for file in files:
                 content = file.file.read()
-                url = self.establishment_repository.update_portrait(content, file.filename,
-                                                                    f'establecimientos/{bucket_id}',
+                url = self.establishment_repository.update_portrait(content, f'{bucket_id}/{file.filename}',
+                                                                    f'establecimientos',
                                                                     file.filename)
                 urls.append(url)
             self.gallery_repository.add_gallery(urls, uuid_establishment)
