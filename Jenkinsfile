@@ -1,7 +1,7 @@
 pipeline{
     agent any
     environment {
-        DOCKER_IMAGE = 'service-user'
+        DOCKER_IMAGE = 'service-user2'
         PORT_MAPPING = '8002:8002'
         CONTAINER_NAME = 'service-user-container'
         AWS_REGION = 'us-east-1'
