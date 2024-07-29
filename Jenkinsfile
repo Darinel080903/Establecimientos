@@ -2,7 +2,7 @@ pipeline{
     agent any
     environment {
         DOCKER_IMAGE = 'service-user2'
-        PORT_MAPPING = '8002:8002'
+        PORT_MAPPING = '8003:8003'
         CONTAINER_NAME = 'service-user2-container'
         AWS_REGION = 'us-east-1'
         AWS_ACCESS_KEY_ID = "${env.AWS_ACCESS_KEY_ID}"
@@ -35,7 +35,7 @@ pipeline{
                         -e URR2=${env.URR2} \
                         -e USS2=${env.USS2} \
                         -e PSS2=${env.PSS2} \
-                        -p 8002:8002 --name ${CONTAINER_NAME}")
+                        -p 8003:8003 --name ${CONTAINER_NAME}")
                 }
             }
         }
