@@ -87,6 +87,11 @@ def get_establishment(establishment_id: str):
     return service.hours_by_uuid(establishment_id)
 
 
+@controller.get(default_route + "comment/establishment/{establishment_id}", dependencies=[Depends(JWTBearer())])
+def get_comment_by_establishment(establishment_id: str):
+    return service_comments.get_by_establishment(establishment_id)
+
+
 @controller.post(default_route + "/comment/create/")
 def create_comment(comment: CommentEntity):
     return service_comments.add_comment(comment.user_id, comment.establishment_id, comment.comment, comment.rating)
