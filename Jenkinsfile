@@ -3,7 +3,7 @@ pipeline{
     environment {
         DOCKER_IMAGE = 'service-user2'
         PORT_MAPPING = '8002:8002'
-        CONTAINER_NAME = 'service-user-container'
+        CONTAINER_NAME = 'service-user2-container'
         AWS_REGION = 'us-east-1'
         AWS_ACCESS_KEY_ID = "${env.AWS_ACCESS_KEY_ID}"
         AWS_SECRET_ACCESS_KEY = "${env.AWS_SECRET_ACCESS_KEY}"
