@@ -6,9 +6,9 @@ import os
 
 load_dotenv()
 
-connection = os.getenv('URR')
-user = os.getenv('USS')
-password = os.getenv('PSS')
+connection = os.getenv('URR2')
+user = os.getenv('USS2')
+password = os.getenv('PSS2')
 
 engine = create_engine(f'mysql+pymysql://{user}:{password}@{connection}:3306/establishment', pool_size=10, max_overflow=20, pool_recycle=60)
 meta = MetaData()

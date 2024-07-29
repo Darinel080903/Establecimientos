@@ -2,14 +2,14 @@ pipeline{
     agent any
     environment {
         DOCKER_IMAGE = 'service-user'
-        PORT_MAPPING = '8000:8000'
+        PORT_MAPPING = '8002:8002'
         CONTAINER_NAME = 'service-user-container'
         AWS_REGION = 'us-east-1'
         AWS_ACCESS_KEY_ID = "${env.AWS_ACCESS_KEY_ID}"
         AWS_SECRET_ACCESS_KEY = "${env.AWS_SECRET_ACCESS_KEY}"
-        URR = "${env.URR}"
-        USS = "${env.USS}"
-        PSS = "${env.PSS}"
+        URR2 = "${env.URR2}"
+        USS2 = "${env.USS2}"
+        PSS2 = "${env.PSS2}"
     }
 
     stages {
@@ -32,10 +32,10 @@ pipeline{
                     dockerImage.run("-e AWS_ACCESS_KEY_ID=${env.AWS_ACCESS_KEY_ID} \
                         -e AWS_SECRET_ACCESS_KEY=${env.AWS_SECRET_ACCESS_KEY} \
                         -e AWS_REGION=${env.AWS_REGION} \
-                        -e URR=${env.URR} \
-                        -e USS=${env.USS} \
-                        -e PSS=${env.PSS} \
-                        -p 8000:8000 --name ${CONTAINER_NAME}")
+                        -e URR2=${env.URR2} \
+                        -e USS2=${env.USS2} \
+                        -e PSS2=${env.PSS2} \
+                        -p 8002:8002 --name ${CONTAINER_NAME}")
                 }
             }
         }
