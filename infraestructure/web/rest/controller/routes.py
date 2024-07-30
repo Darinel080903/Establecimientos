@@ -111,3 +111,8 @@ def health():
                 dependencies=[Depends(JWTBearer())])
 def get_ratings_over_time(establishment_id: str, interval: str):
     return service_comments.get_ratings_over_time(establishment_id, interval)
+
+
+@controller.get("/predict_future_rating/{establishment_id}/{interval}")
+def predict_future_rating(establishment_id: str, interval: str):
+    return service_comments.predict_future_rating(establishment_id, interval)

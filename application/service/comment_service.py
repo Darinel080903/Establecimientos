@@ -4,6 +4,8 @@ from domain.model.comment_domain import Comment_domain
 from domain.model.dto.response.base_response import Base_response
 from domain.repository.comment_repository import Comment_repository
 from domain.use_case.comment_use_case import Comment_use_case
+from sklearn.linear_model import LinearRegression
+import numpy as np
 
 
 class Comment_service(Comment_use_case, ABC):
@@ -66,3 +68,24 @@ class Comment_service(Comment_use_case, ABC):
 
     def get_ratings_over_time(self, establishment_id: str, interval: str):
         return self.comment_repository.get_ratings_over_time(establishment_id, interval)
+
+    def predict_future_rating(self, establishment_id: str, interval: str):
+        ratings_over_time = self.get_ratings_over_time(establishment_id, interval)
+        time_values = np.array([i[0].timestamp() for i in ratings_over_time]).reshape(-1, 1)
+        ratings = np.array([i[1] for i in ratings_over_time])
+        model = LinearRegression()
+        model.fit(time_values, ratings)
+
+        last_timestamp = time_values[-1][0]
+
+        future_time = last_timestamp + 3600 * 24
+
+        if interval == "1H":
+            future_time = last_timestamp + 3600 * 2
+        elif interval == "1D":
+            future_time = last_timestamp + 3600 * 24 * 2
+
+        future_time = np.array([future_time]).reshape(-1, 1)
+        predicted_rating = model.predict(future_time)
+
+        return predicted_rating

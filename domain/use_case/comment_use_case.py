@@ -36,4 +36,8 @@ class Comment_use_case(ABC):
     def get_sentimental_analysis(self, establishment_uuid: str):
         raise NotImplemented
 
+    @abstractmethod
+    def predict_future_rating(self, establishment_id: str, interval: str):
+        raise NotImplemented
+
 

@@ -49,3 +49,4 @@ class Comment_repository_impl(Comment_repository, ABC):
             .order_by('time')
             .all()
         )
+
