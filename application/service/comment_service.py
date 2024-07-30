@@ -64,3 +64,5 @@ class Comment_service(Comment_use_case, ABC):
         except Exception as e:
             return Base_response(data=None, message=str(e), code=500)
 
+    def get_ratings_over_time(self, establishment_id: str, interval: str):
+        return self.comment_repository.get_ratings_over_time(establishment_id, interval)

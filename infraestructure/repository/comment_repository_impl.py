@@ -1,5 +1,7 @@
 from abc import ABC
 
+from sqlalchemy import func
+
 from domain.model.comment_domain import Comment_domain
 from domain.repository.comment_repository import Comment_repository
 from infraestructure.configuration.db import SessionLocal
@@ -35,3 +37,15 @@ class Comment_repository_impl(Comment_repository, ABC):
     def get_by_user(self, user_id: str) -> list[Comment_domain]:
         filtered_comments = self.db.query(Comment).filter(Comment.user_id == user_id).all()
         return [Comment_mapper_service.db_to_domain(comment) for comment in filtered_comments]
+
+    def get_ratings_over_time(self, establishment_id: str, interval: str):
+        return (
+            self.db.query(
+                func.date_trunc(interval, Comment.timestamp).label('time'),
+                func.avg(Comment.rating).label('average_rating')
+            )
+            .filter(Comment.establishment_id == establishment_id)
+            .group_by('time')
+            .order_by('time')
+            .all()
+        )

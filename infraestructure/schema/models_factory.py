@@ -1,4 +1,6 @@
-from sqlalchemy import String, Integer, Column, ForeignKey
+from datetime import datetime
+
+from sqlalchemy import String, Integer, Column, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 
 from infraestructure.configuration.db import Base, engine, meta
@@ -51,6 +53,7 @@ class Comment(Base):
     establishment_id = Column(String(255), ForeignKey('establishment.uuid'))
     comment = Column(String(255))
     rating = Column(Integer)
+    timestamp = Column(DateTime, default=datetime.utcnow)
     establishment = relationship('Establishment', back_populates='comment')
 
 

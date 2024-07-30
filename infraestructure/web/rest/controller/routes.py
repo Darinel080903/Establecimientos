@@ -105,3 +105,9 @@ def get_establishment(establishment_id: str):
 @controller.get(default_route + '/health')
 def health():
     return {"status": "Ok"}
+
+
+@controller.get(default_route + "/comments/ratings_over_time/{establishment_id}/{interval}",
+                dependencies=[Depends(JWTBearer())])
+def get_ratings_over_time(establishment_id: str, interval: str):
+    return service_comments.get_ratings_over_time(establishment_id, interval)

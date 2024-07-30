@@ -23,3 +23,6 @@ class Comment_repository(ABC):
     @abstractmethod
     def get_by_user(self, user_id: str) -> list[Comment_domain]:
         raise NotImplemented
+
+    def get_ratings_over_time(self, establishment_id: str, interval: str):
+        raise NotImplemented
