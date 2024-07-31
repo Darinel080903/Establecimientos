@@ -140,11 +140,9 @@ class Establishment_service(Establishment_use_case, ABC):
 
     def hours_by_uuid(self, uuid: str) -> Base_response:
         response = {}
-        try:
-            establishment = self.establishment_repository.get_by_uuid(uuid)
-            response['opening_hours'] = establishment.opening_hours
-            response['closing_hours'] = establishment.closing_hours
-            response['days'] = establishment.days
-            return Base_response(data=response, message="Success", code=200)
-        except Exception as e:
-            return Base_response(data=None, message=str(e), code=500)
+        establishment = self.establishment_repository.get_by_uuid(uuid)
+        print(establishment)
+        response['opening_hours'] = establishment[0].opening_hours
+        response['closing_hours'] = establishment[0].closing_hours
+        response['days'] = establishment[0].days
+        return Base_response(data=response, message="Success", code=200)
