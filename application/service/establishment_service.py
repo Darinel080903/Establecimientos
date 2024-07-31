@@ -98,7 +98,7 @@ class Establishment_service(Establishment_use_case, ABC):
             raise Exception('Invalid file type')
 
         try:
-            url = self.establishment_repository.update_portrait(content, filename, 'agendaryetb', filename)
+            url = self.establishment_repository.update_portrait(content, filename, 'imagesprofile1', filename)
             print("waos", url)
             self.establishment_repository.create_image_for_establishment(uuid_establishment, url)
             response = Base_response(data=None, message='Success', code=201)
@@ -114,7 +114,7 @@ class Establishment_service(Establishment_use_case, ABC):
             for file in files:
                 content = file.file.read()
                 url = self.establishment_repository.update_portrait(content, f'{bucket_id}/{file.filename}',
-                                                                    f'agendaryetb',
+                                                                    f'imagesprofile1',
                                                                     file.filename)
                 urls.append(url)
             self.gallery_repository.add_gallery(urls, uuid_establishment)
